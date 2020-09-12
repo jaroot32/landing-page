@@ -20,8 +20,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
         nav_item;
     
     ul = document.querySelector('ul');
+    console.log(ul.childNodes)
     activeElem = document.getElementsByClassName('your-active-class');
-
+    console.log(activeElem)
     const sections = document.querySelectorAll('section');
 
     // Build menu
@@ -42,36 +43,37 @@ document.addEventListener('DOMContentLoaded', (event) => {
      function onScrollHelper(elem) {
         Array.from(activeElem).forEach(item => item.classList.remove('your-active-class'));
         elem.classList.add('your-active-class');
+        menuItemActive(elem);
      }
     
-    function menuItemActive(list, elem) {
-        list.forEach(item => item.classList.remove('your-active-class'));
+    function menuItemActive(elem) {
+        ul.childNodes.forEach(item => item.classList.remove('your-active-class'));
+        ul.childNodes.forEach(item => {
+            if (elem.dataset.nav === item.textContent) {
+                item.classList.add('your-active-class');
+            }
+        })
         elem.classList.add('your-active-class');
     }
 
     let handler = ul.addEventListener("click", function (e) {
 
-        console.log(e)
-        let list = e.target.parentNode.childNodes;
-        console.log(e.target.parentNode.childNodes)
         let elem = e.target;
         console.log(e.target)
         switch (e.target.innerText) {
             case 'Section-1':
                 scrollHelper(sections[0]);
-                menuItemActive(list, elem);
                 break;
             case 'Section-2':
                 scrollHelper(sections[1]);
-                menuItemActive(list, elem);
                 break;
             case 'Section-3':
                 scrollHelper(sections[2]);
-                menuItemActive(list, elem);
+                menuItemActive(elem);
                 break;
             case 'Section-4':
                 scrollHelper(sections[3]);
-                menuItemActive(list, elem);
+                menuItemActive(elem);
                 break;
         }
     });
@@ -91,11 +93,14 @@ document.addEventListener('DOMContentLoaded', (event) => {
         if (isInViewport(sections[0])) {
             onScrollHelper(sections[0]);
         } else if (isInViewport(sections[1])) {
-            onScrollHelper(sections[1]) 
+            onScrollHelper(sections[1]);
+             menuItemActive(elem);
         } else if (isInViewport(sections[2])) {
             onScrollHelper(sections[2]);
+            menuItemActive(elem);
         } else if (isInViewport(sections[3])) {
             onScrollHelper(sections[3]);
+            menuItemActive(elem);
         }
     }); 
 
